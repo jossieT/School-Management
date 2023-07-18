@@ -8,4 +8,4 @@ const dbConnect = async () =>{
     }
 }
 
-
+module.exports = dbConnect;
