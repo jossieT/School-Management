@@ -25,108 +25,26 @@ app.use("/api/v1/admin/:id", adminRouter);
 app.use("/api/v1/admin/:id", adminRouter);
 
 //Delete admin 
-app.delete("/api/v1/admin/:id", (req, res)=>{
-    try {
-        res.status(201).json({
-            status: "success",
-            data: "Delete admin"
-        });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
-    }
-})
+app.use("/api/v1/admin/:id", adminRouter);
 
 //Admin suspending teacher
-app.put("/api/v1/admin/suspend/teacher/:id", (req, res)=>{
-    try {
-        res.status(201).json({
-            status: "success",
-            data: "Admin suspend teacher"
-        });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
-    }
-})
+app.use("/api/v1/admin/suspend/teacher/:id", adminRouter);
 
 //Admin Unsuspending teacher
-app.put("/api/v1/admin/unsuspend/teacher/:id", (req, res)=>{
-    try {
-        res.status(201).json({
-            status: "success",
-            data: "Admin unsuspend teacher"
-        });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
-    }
-})
+app.use("/api/v1/admin/unsuspend/teacher/:id", adminRouter);
 
 //Admin withdraw teacher
-app.put("/api/v1/admin/withdraw/teacher/:id", (req, res)=>{
-    try {
-        res.status(201).json({
-            status: "success",
-            data: "Admin withdraw teacher"
-        });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
-    }
-})
+app.use("/api/v1/admin/withdraw/teacher/:id", adminRouter);
 
 //Admin Uwithdraw teacher
-app.put("/api/v1/admin/unwithdraw/teacher/:id", (req, res)=>{
-    try {
-        res.status(201).json({
-            status: "success",
-            data: "Admin unwithdraw teacher"
-        });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
-    }
-})
+app.use("/api/v1/admin/unwithdraw/teacher/:id", adminRouter);
 
 //Admin publish exam
 
-app.put("/api/v1/admin/publish/exam/:id", (req, res)=>{
-    try {
-        res.status(201).json({
-            status: "success",
-            data: "Admin publish exam"
-        })
-    } catch (error) {
-        res.json({
-        status: "failed",
-        error: error.message
-    })}
-})
+app.use("/api/v1/admin/publish/exam/:id", adminRouter);
 
 //Admin unpublish exam
 
-app.put("/api/v1/admin/unpublish/exam/:id", (req, res)=>{
-    try {
-        res.status(201).json({
-            status: "success",
-            data: "Admin unpublish exam"
-        })
-    } catch (error) {
-        res.json({
-        status: "failed",
-        error: error.message
-    })}
-})
+app.use("/api/v1/admin/unpublish/exam/:id", adminRouter);
 
 module.exports = app;

@@ -80,6 +80,114 @@ adminRouter.put('/', (req, res)=>{
     }
 });
 
+//delete admin
+adminRouter.delete('/', (req, res)=>{
+    try {
+        res.status(201).json({
+            status: "success",
+            data: "Delete admin"
+        });
+    } catch (error) {
+        res.json({
+            status: "failed",
+            error: error.message
+        });
+    }
+});
+
+//admin suspending teacher
+
+adminRouter.put('/',(req, res)=>{
+    try {
+        res.status(201).json({
+            status: "success",
+            data: "Admin suspend teacher"
+        });
+    } catch (error) {
+        res.json({
+            status: "failed",
+            error: error.message
+        });
+    }
+});
+
+//Admin unsuspending teacher
+
+adminRouter.put('/', (req, res)=>{
+    try {
+        res.status(201).json({
+            status: "success",
+            data: "Admin unsuspend teacher"
+        });
+    } catch (error) {
+        res.json({
+            status: "failed",
+            error: error.message
+        });
+    }
+});
+
+//Admin withdraw teacher
+
+adminRouter.put('/', (req, res)=>{
+    try {
+        res.status(201).json({
+            status: "success",
+            data: "Admin withdraw teacher"
+        });
+    } catch (error) {
+        res.json({
+            status: "failed",
+            error: error.message
+        });
+    }
+});
+
+//Admin Uwithdraw teacher
+
+adminRouter.put('/', (req, res)=>{
+    try {
+        res.status(201).json({
+            status: "success",
+            data: "Admin unwithdraw teacher"
+        });
+    } catch (error) {
+        res.json({
+            status: "failed",
+            error: error.message
+        });
+    }
+});
+
+//Admin publish exam
+
+adminRouter.put('/', (req, res)=>{
+    try {
+        res.status(201).json({
+            status: "success",
+            data: "Admin publish exam"
+        })
+    } catch (error) {
+        res.json({
+        status: "failed",
+        error: error.message
+    })}
+});
+
+//Admin Unpublish exam
+
+adminRouter.put('/', (req, res)=>{
+    try {
+        res.status(201).json({
+            status: "success",
+            data: "Admin unpublish exam"
+        })
+    } catch (error) {
+        res.json({
+        status: "failed",
+        error: error.message
+    })}
+});
 
 
 module.exports = adminRouter;
