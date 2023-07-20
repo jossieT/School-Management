@@ -8,43 +8,44 @@ const app = express();
 
 app.route('/')
 //===Middleware===
+app.use(express.json());//pass incoming json data
 app.use(morgan("dev"));
 //Admin Register 
-app.use("/api/v1/admins/register", adminRouter);
+app.use("/api/v1/admins", adminRouter);
 
 //Admin Login 
-app.use("/api/v1/admins/login", adminRouter);
+app.use("/api/v1/admins", adminRouter);
 
 //Get all admins
 app.use("/api/v1/admins", adminRouter);
 
 //Get Single admin 
-app.use("/api/v1/admin/:id", adminRouter);
+app.use("/api/v1/admins", adminRouter);
 
 //Update admin 
-app.use("/api/v1/admin/:id", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 //Delete admin 
-app.use("/api/v1/admin/:id", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 //Admin suspending teacher
-app.use("/api/v1/admin/suspend/teacher/:id", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 //Admin Unsuspending teacher
-app.use("/api/v1/admin/unsuspend/teacher/:id", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 //Admin withdraw teacher
-app.use("/api/v1/admin/withdraw/teacher/:id", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 //Admin Uwithdraw teacher
-app.use("/api/v1/admin/unwithdraw/teacher/:id", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 //Admin publish exam
 
-app.use("/api/v1/admin/publish/exam/:id", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 //Admin unpublish exam
 
-app.use("/api/v1/admin/unpublish/exam/:id", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 module.exports = app;
