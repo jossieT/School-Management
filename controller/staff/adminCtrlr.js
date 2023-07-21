@@ -1,3 +1,4 @@
+const { use } = require('../../app/app');
 const Admin = require('../../model/Staff/Admin');
 
 //@desc register admin
@@ -10,9 +11,9 @@ exports.registerAdmnCtrl = async (req, res)=>{
     try {
         //cheking if email exists
         const adminFound = await Admin.findOne({ email });
-        if(adminFound){
-            res.json("Admin Exists");
-        }
+        // if(adminFound){
+        //     res.json("Admin Exist");
+        // }
         //Register admin
         const user = await Admin.create({
             name,
