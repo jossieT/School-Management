@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const { adminSpndTchrCtrl } = require("../../controller/staff/adminCtrlr");
 
 const AdminSchema = new mongoose.Schema(
   {
@@ -33,7 +34,10 @@ AdminSchema.pre('save', async function(next){
       this.password = await bcrypt.hash(this.password, salt);
       next();
 });
-
+//verify password
+AdminSchema.methods.verifyPassword = async function(enteredPassword){
+  return await bcrypt.compare(enteredPassword, this.password);
+}
 
 //model
 const Admin = mongoose.model("Admin", AdminSchema);

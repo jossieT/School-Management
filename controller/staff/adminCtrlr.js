@@ -1,3 +1,4 @@
+const AsyncHandler = require('express-async-handler');
 const { use } = require('../../app/app');
 const Admin = require('../../model/Staff/Admin');
 
@@ -5,15 +6,13 @@ const Admin = require('../../model/Staff/Admin');
 //@route POST /api/v1/admins/register
 //@access private
 
-exports.registerAdmnCtrl = async (req, res)=>{
+exports.registerAdmnCtrl = AsyncHandler (async (req, res)=>{
     const { name, email, password } = req.body;
-
-    try {
         //cheking if email exists
         const adminFound = await Admin.findOne({ email });
-        // if(adminFound){
-        //     res.json("Admin Exist");
-        // }
+        if(adminFound){
+           return res.json("Admin exist");
+        }
         //Register admin
         const user = await Admin.create({
             name,
@@ -23,21 +22,29 @@ exports.registerAdmnCtrl = async (req, res)=>{
         res.status(201).json({
             status: "success",
             data: user
-        });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
-    }
-}
-
+        })
+})
 //@desc Login admin
 //@route POST /api/v1/admins/login
 //@access private
 
-exports.adminLgnCtrl = (req, res)=>{
+exports.adminLgnCtrl = async (req, res)=>{
+    const { email, password } = req.body;
     try {
+        const user = await Admin.findOne({ email });
+        if(!user){
+          return res.json({
+                message: 'user not found'
+            })
+        }
+        if(user && await user.verifyPassword(password)){
+          return res.json({ data: user});
+        }
+        else{
+            return res.json({
+                message: 'Invalid user credencials'
+            })
+        }
         res.status(201).json({
             status: "success",
             data: "Admin logged in"
@@ -54,11 +61,13 @@ exports.adminLgnCtrl = (req, res)=>{
 //@route GET /api/v1/admins/
 //@access private
 
-exports.getAllAdmnsCtrl = (req, res)=>{
+exports.getAllAdmnsCtrl = async (req, res)=>{
+        const users = await Admin.find();
     try {
-        res.status(201).json({
+        console.log(users != null);
+        return res.status(201).json({
             status: "success",
-            data: "All admins"
+            data: users
         });
     } catch (error) {
         res.json({

@@ -7,9 +7,42 @@ const app = express();
 
 
 app.route('/')
-//===Middleware===
+//===Middlewares===
 app.use(express.json());//pass incoming json data
 app.use(morgan("dev"));
+
+app.use((req, res, next)=>{
+    console.log(`${req.method} ${req.originalUrl}`);
+    next();
+});
+
+// let user = {
+//     name: 'john doe',
+//     isAdmin: false,
+//     isLoggedIn: true
+// }
+
+// const isLoggedIn = ((req, res, next)=>{
+//     if(user.isLoggedIn){
+//         next();
+//     } else {
+//         res.status(401).json({
+//             message: 'unauthorized'
+//         })
+//     }
+// })
+// const  isAdmin = ((req, res, next)=>{
+//     if(user.isAdmin){
+//         next();
+//     } else{
+//         res.status(401).json({
+//             message: 'you are not an admin'
+//         })
+//     }
+// })
+// app.use(isLoggedIn, isAdmin);
+
+//Routes
 //Admin Register 
 app.use("/api/v1/admins", adminRouter);
 
