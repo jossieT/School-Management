@@ -11,7 +11,7 @@ exports.registerAdmnCtrl = AsyncHandler (async (req, res)=>{
         //cheking if email exists
         const adminFound = await Admin.findOne({ email });
         if(adminFound){
-           return res.json("Admin exist");
+           throw new Error ("Admin exist");
         }
         //Register admin
         const user = await Admin.create({

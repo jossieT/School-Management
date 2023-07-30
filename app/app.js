@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const adminRouter = require('../routes/staff/adminRouter');
+const { globalErrHandler, notFoundErr } = require('../middlewares/globalErrHandler');
 const app = express();
 
 
@@ -43,42 +44,11 @@ app.use((req, res, next)=>{
 // app.use(isLoggedIn, isAdmin);
 
 //Routes
-//Admin Register 
 app.use("/api/v1/admins", adminRouter);
 
-//Admin Login 
-app.use("/api/v1/admins", adminRouter);
-
-//Get all admins
-app.use("/api/v1/admins", adminRouter);
-
-//Get Single admin 
-app.use("/api/v1/admins", adminRouter);
-
-//Update admin 
-app.use("/api/v1/admin", adminRouter);
-
-//Delete admin 
-app.use("/api/v1/admin", adminRouter);
-
-//Admin suspending teacher
-app.use("/api/v1/admin", adminRouter);
-
-//Admin Unsuspending teacher
-app.use("/api/v1/admin", adminRouter);
-
-//Admin withdraw teacher
-app.use("/api/v1/admin", adminRouter);
-
-//Admin Uwithdraw teacher
-app.use("/api/v1/admin", adminRouter);
-
-//Admin publish exam
-
-app.use("/api/v1/admin", adminRouter);
-
-//Admin unpublish exam
-
-app.use("/api/v1/admin", adminRouter);
+//Not Found Error
+app.use(notFoundErr);
+//error middleswares
+app.use(globalErrHandler);
 
 module.exports = app;
