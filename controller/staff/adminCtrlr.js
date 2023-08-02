@@ -1,7 +1,8 @@
 const AsyncHandler = require('express-async-handler');
 const { use } = require('../../app/app');
 const Admin = require('../../model/Staff/Admin');
-
+const generateToken = require('../../utils/tokenGenerator');
+const verifyToken = require('../../utils/verifyToken');
 //@desc register admin
 //@route POST /api/v1/admins/register
 //@access private
@@ -28,9 +29,10 @@ exports.registerAdmnCtrl = AsyncHandler (async (req, res)=>{
 //@route POST /api/v1/admins/login
 //@access private
 
-exports.adminLgnCtrl = async (req, res)=>{
-    const { email, password } = req.body;
-    try {
+exports.adminLgnCtrl = AsyncHandler (async (req, res)=>{
+    
+        const { email, password } = req.body;
+
         const user = await Admin.findOne({ email });
         if(!user){
           return res.json({
@@ -38,24 +40,19 @@ exports.adminLgnCtrl = async (req, res)=>{
             })
         }
         if(user && await user.verifyPassword(password)){
-          return res.json({ data: user});
+            //save user to req object
+            //req.userAuth = user;
+        const token = generateToken(user._id);
+            const verify = verifyToken(token);
+            console.log(verify);
+        return res.json({ data: token, user, verify});
         }
         else{
             return res.json({
                 message: 'Invalid user credencials'
             })
         }
-        res.status(201).json({
-            status: "success",
-            data: "Admin logged in"
-        });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
-    }
-}
+})
 
 //@desc get all admins
 //@route GET /api/v1/admins/
@@ -81,8 +78,9 @@ exports.getAllAdmnsCtrl = async (req, res)=>{
 //@route GET /api/v1/admins/:id
 //@access private
 
-exports.getSnglAdmnCtrl = (req, res)=>{
+exports.getSnglAdmnCtrl = async (req, res)=>{
     try {
+        console.log(req.userAuth);
         res.status(201).json({
             status: "success",
             data: "Single admin"
