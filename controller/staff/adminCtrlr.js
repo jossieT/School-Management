@@ -22,7 +22,8 @@ exports.registerAdmnCtrl = AsyncHandler (async (req, res)=>{
         });
         res.status(201).json({
             status: "success",
-            data: user
+            data: user,
+            message: "Admin Registered successfully"
         })
 })
 //@desc Login admin
@@ -44,8 +45,11 @@ exports.adminLgnCtrl = AsyncHandler (async (req, res)=>{
             //req.userAuth = user;
         const token = generateToken(user._id);
             const verify = verifyToken(token);
-            console.log(verify);
-        return res.json({ data: token, user, verify});
+            //console.log(verify);
+        return res.json({ 
+            data: verify,
+            message: "Admin logged in successfully"
+        });
         }
         else{
             return res.json({
@@ -78,20 +82,19 @@ exports.getAllAdmnsCtrl = async (req, res)=>{
 //@route GET /api/v1/admins/:id
 //@access private
 
-exports.getSnglAdmnCtrl = async (req, res)=>{
-    try {
-        console.log(req.userAuth);
-        res.status(201).json({
+exports.getAdminProfileCtrl = AsyncHandler (async (req, res)=>{
+    //console.log(req.userAuth);
+    const admin = await Admin.findById(req.userAuth._id).select("-password -createdAt -updatedAt");
+    if(!admin){
+        throw new Error(" Admin not found");
+    }else{
+        res.status(200).json({
             status: "success",
-            data: "Single admin"
-        });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
+            data: admin,
+            message: "admin profile fetched successfully"
+        })
     }
-}
+})
 
 //@desc update admin
 //@route DELETE /api/v1/admins/:id

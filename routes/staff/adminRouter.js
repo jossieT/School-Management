@@ -2,7 +2,7 @@ const express = require('express');
 const  { registerAdmnCtrl,
     adminLgnCtrl,
     getAllAdmnsCtrl,
-    getSnglAdmnCtrl,
+    getAdminProfileCtrl,
     updateAdmnCtrl, 
     deleteAdmnCtrl, 
     adminSpndTchrCtrl, 
@@ -25,7 +25,7 @@ adminRouter.post('/login', adminLgnCtrl);
 adminRouter.get('/', getAllAdmnsCtrl);
 
 //get single admin
-adminRouter.get('/:id', isLoggedIn, getSnglAdmnCtrl);
+adminRouter.get('/profile', isLoggedIn, getAdminProfileCtrl);
 
 //update admin
 adminRouter.put('/:id', updateAdmnCtrl);
