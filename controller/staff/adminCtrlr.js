@@ -2,6 +2,7 @@ const AsyncHandler = require('express-async-handler');
 const { use } = require('../../app/app');
 const Admin = require('../../model/Staff/Admin');
 const generateToken = require('../../utils/tokenGenerator');
+const bcrypt = require('bcryptjs');
 const verifyToken = require('../../utils/verifyToken');
 //@desc register admin
 //@route POST /api/v1/admins/register
@@ -14,11 +15,14 @@ exports.registerAdmnCtrl = AsyncHandler (async (req, res)=>{
         if(adminFound){
            throw new Error ("Admin exist");
         }
+        //hash the password 
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
         //Register admin
         const user = await Admin.create({
             name,
             email,
-            password
+            password: hashedPassword
         });
         res.status(201).json({
             status: "success",
@@ -37,46 +41,45 @@ exports.adminLgnCtrl = AsyncHandler (async (req, res)=>{
         const user = await Admin.findOne({ email });
         if(!user){
           return res.json({
-                message: 'user not found'
+                message: ' Invalid user credencials or user not found'
             })
         }
-        if(user && await user.verifyPassword(password)){
-            //save user to req object
-            //req.userAuth = user;
-        const token = generateToken(user._id);
-            const verify = verifyToken(token);
-            //console.log(verify);
-        return res.json({ 
-            data: verify,
-            message: "Admin logged in successfully"
-        });
-        }
-        else{
+        //verify password
+        const isMatched = await bcrypt.compare(password, user.password);
+        if(!isMatched){
             return res.json({
                 message: 'Invalid user credencials'
             })
+        } else{
+            //save user to req object
+            //req.userAuth = user;
+            const token = generateToken(user._id);
+            const verify = verifyToken(token);
+            return res.json({ 
+                data: verify, token,
+                message: "Admin logged in successfully"
+        });
         }
+    
+            
 })
 
 //@desc get all admins
 //@route GET /api/v1/admins/
 //@access private
 
-exports.getAllAdmnsCtrl = async (req, res)=>{
-        const users = await Admin.find();
-    try {
-        console.log(users != null);
+exports.getAllAdmnsCtrl = AsyncHandler (async (req, res)=>{
+        const admins = await Admin.find();
         return res.status(201).json({
             status: "success",
-            data: users
+            message: "Admins fetched successfully",
+            data: admins
         });
-    } catch (error) {
         res.json({
             status: "failed",
             error: error.message
         });
-    }
-}
+})
 
 //@desc get single admin
 //@route GET /api/v1/admins/:id
@@ -100,19 +103,32 @@ exports.getAdminProfileCtrl = AsyncHandler (async (req, res)=>{
 //@route DELETE /api/v1/admins/:id
 //@access private
 
-exports.updateAdmnCtrl = (req, res)=>{
-    try {
-        res.status(201).json({
+exports.updateAdmnCtrl = AsyncHandler (async (req, res)=>{
+   const {email, name, password} = req.body;
+   //find the admin
+   //const foundAdmin = await Admin.findById(req.userAuth._id);
+   const emailExist = await Admin.findOne({email});
+   if(emailExist){
+        throw new Error("This email is taken or exist in the database");
+   }else{
+        const admin = await Admin.findByIdAndUpdate(req.userAuth._id, {
+            email,
+            name,
+            password
+        },
+        {
+            new: true,
+            runValidators: true
+        });
+
+        res.status(200).json({
             status: "success",
-            data: "Admin updated"
+            data: admin,
+            message: "Admin updated successfully"
         });
-    } catch (error) {
-        res.json({
-            status: "failed",
-            error: error.message
-        });
-    }
-}
+   }
+
+});
 
 //@desc delete admin
 //@route DELETE /api/v1/admins/:id

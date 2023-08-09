@@ -13,6 +13,7 @@ const  { registerAdmnCtrl,
     adminUnPblshExm
 }  = require('../../controller/staff/adminCtrlr');
 const isLoggedIn = require('../../middlewares/isLoggedIn');
+const isAdmin = require('../../middlewares/isAdmin');
 const adminRouter = express.Router();
 
 //admin register
@@ -22,13 +23,13 @@ adminRouter.post('/register', registerAdmnCtrl);
 adminRouter.post('/login', adminLgnCtrl);
 
 //get all admins
-adminRouter.get('/', getAllAdmnsCtrl);
+adminRouter.get('/', isLoggedIn, getAllAdmnsCtrl);
 
 //get single admin
-adminRouter.get('/profile', isLoggedIn, getAdminProfileCtrl);
+adminRouter.get('/profile', isLoggedIn, isAdmin, getAdminProfileCtrl);
 
 //update admin
-adminRouter.put('/:id', updateAdmnCtrl);
+adminRouter.put('/profile',isLoggedIn, isAdmin, updateAdmnCtrl);
 
 //delete admin
 adminRouter.delete('/:id', deleteAdmnCtrl);
