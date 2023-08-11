@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const adminRouter = require('../routes/staff/adminRouter');
+const academicYearRouter = require('../routes/Academics/academicYearRouter');
 const { globalErrHandler, notFoundErr } = require('../middlewares/globalErrHandler');
 const app = express();
 
@@ -45,6 +46,7 @@ app.use((req, res, next)=>{
 
 //Routes
 app.use("/api/v1/admins", adminRouter);
+app.use("/api/v1/academic-year", academicYearRouter);
 
 //Not Found Error
 app.use(notFoundErr);
