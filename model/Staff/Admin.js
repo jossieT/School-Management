@@ -26,7 +26,7 @@ const AdminSchema = new mongoose.Schema(
     }],
     academicYear: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'AcedimcYear'
+      ref: 'AcademicYear'
     }],
     classLevel : [{
       type: mongoose.Schema.Types.ObjectId,

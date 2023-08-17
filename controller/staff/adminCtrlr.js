@@ -87,7 +87,7 @@ exports.getAllAdmnsCtrl = AsyncHandler (async (req, res)=>{
 
 exports.getAdminProfileCtrl = AsyncHandler (async (req, res)=>{
     //console.log(req.userAuth);
-    const admin = await Admin.findById(req.userAuth._id).select("-password -createdAt -updatedAt");
+    const admin = await Admin.findById(req.userAuth._id).select("-password -createdAt -updatedAt").populate('academicYear');
     if(!admin){
         throw new Error(" Admin not found");
     }else{
@@ -97,7 +97,7 @@ exports.getAdminProfileCtrl = AsyncHandler (async (req, res)=>{
             message: "admin profile fetched successfully"
         })
     }
-})
+});
 
 //@desc update admin
 //@route DELETE /api/v1/admins/:id
