@@ -67,7 +67,7 @@ exports.updateAcademicYear = AsyncHandler(async(req, res)=>{
     }
     res.status(201).json({
         status: 'success',
-        message: 'Single Academic year found',
+        message: 'Academic year updated successfully',
         data: foundAcademicYear   
     });
     
@@ -81,7 +81,7 @@ exports.deleteAcademicYear = AsyncHandler(async(req, res)=>{
     }
     res.status(201).json({
         status: 'success',
-        message: 'Acadamic Year deleted Succefuly',
+        message: 'Acadamic Year deleted Succefully',
         data: []   
     });
     
